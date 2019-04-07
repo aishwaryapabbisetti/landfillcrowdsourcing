@@ -1,0 +1,55 @@
+<div class="container">
+    <form class="form-horizontal">
+    <fieldset>
+
+    <!-- Form Name -->
+    <legend>My Profile</legend>
+
+
+    <!-- Text input-->
+    <div class="form-group">
+    <label class="col-md-4 control-label" for="textinput">UserName</label>  
+    <div class="col-md-4">
+    <input id="textinput" name="username" type="text" placeholder="{{user.username}}" class="form-control input-md" readonly>
+        
+    </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+    <label class="col-md-4 control-label" for="textinput">FullName</label>  
+    <div class="col-md-4">
+    <input id="textinput" name="fullname" type="text" placeholder="{{user.fullname}}" class="form-control input-md" readonly>
+        
+    </div>
+    </div>
+
+    <div class="form-group">
+    <label class="col-md-4 control-label" for="textinput">Type of User</label>  
+    <div class="col-md-4">
+    <input id="textinput" name="usertype" type="text" placeholder="{{user.userType}}" class="form-control input-md" readonly>
+    </div>
+    </div>
+
+    <div class="form-group" align="center">
+    
+    {{#if isManager}}
+        <label class="col-md-4 control-label" for="textinput">Click on to</label>
+        <div class="col-md-7">
+        <a href="{{createCampaign}}" class="col-md-3">Create campaign</a>
+        <a href="{{campaignList}}" class="col-md-4">View campaigns</a>
+        </div>
+    {{else}}
+        <div class="form-group"><a href="{{viewTasks}}">View tasks</a></div>
+    {{/if}}
+
+    </div>
+
+    </fieldset>
+    </form>
+
+</div>
+
+
+
+

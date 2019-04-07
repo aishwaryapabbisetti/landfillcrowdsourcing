@@ -1,0 +1,51 @@
+
+<div class="container" >
+     <form class="form-horizontal" action="/campaignlist" method="POST">
+          <fieldset>
+               <a href="{{profile}}">View My Profile </a>
+               <a href="{{createCampaign}}">Create new campaign </a>
+               <legend>List of campaigns</legend>
+               {{#each campaignList}}
+               <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Campaign name</label>
+                    <div class="col-md-4"> {{this.campaignName}}</div>
+               </div>
+
+               <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Workers for selection task</label>
+                    <div class="col-md-4">
+                         {{#each this.selectedWorkers}}
+                         {{this}},
+                         {{/each}}
+                    </div>
+               </div>
+
+               <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Workers for Annotation task</label>
+                    <div class="col-md-4">
+                         {{#each this.annotatedWorkers}}
+                         {{this}},
+                         {{/each}}
+                    </div>
+               </div>
+
+               <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">List of images</label>
+               </div>
+
+               <div class="form-group">
+                    {{#each this.images}}
+                    <label class="col-md-4 control-label" for="textinput"> {{this.url}} </label>
+                         {{#if this.children}}
+                              Annotated images:
+                         {{/if}}
+                         {{#each this.children}}
+                              {{this}},
+                         {{/each}}
+                    {{/each}}
+               </div>
+               {{/each}}
+          </fieldset>
+     </form>
+   
+</div>

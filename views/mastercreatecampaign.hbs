@@ -1,0 +1,132 @@
+<div class="container">
+  <form class="form-horizontal" action="/createCampaign" method="POST">
+    <fieldset>
+
+      <legend>Create a campaign</legend>
+      <div class="form-group">
+        <div class="col-md-7">
+          <a href="{{profile}}">View My Profile </a>
+        </div>
+      </div>
+      <input id="token" name="token" type="text" placeholder="" class="hidden" value="{{token}}">
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="textinput">Campaign name</label>
+        <div class="col-md-4">
+          <input id="textinput" name="campaignName" type="text" placeholder="Enter campaign name"
+            class="form-control input-md">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="files"> Select images</label>
+         <div class="col-md-4">
+          <input type='file' id="files" name="images" class="input-file" multiple  />
+          <div style=" overflow: hidden;">
+          <output id="result"/>    
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="selectionWorkers">Add worker for selection task</label>
+        <div class="col-md-4">
+          <select id="selectionWorkers" name="selectionWorkers" class="form-control" multiple>
+            {{#each workers}}
+              <option value="{{this._id}}">{{this.fullname}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="numberInput"> Selection Threshold</label>
+        <div class="col-md-4">
+          <input id="numberInput" name="selectionThreshold" type="number" placeholder="Enter a number"
+            class="form-control input-md">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="annotationWorkers">Add worker for Annotation task</label>
+        <div class="col-md-4">
+          <select id="annotationWorkers" name="annotationWorkers" class="form-control" multiple>
+            {{#each workers}}
+              <option value="{{this._id}}">{{this.fullname}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+       
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="textinput">Annotation size</label>
+        <div class="col-md-4">
+          <input id="numberInput2" name="annotationSize" type="number" placeholder="Enter a number"
+            class="form-control input-md">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="singlebutton"></label>
+        <div class="col-md-4">
+          <button id="createcampaign" class="btn btn-primary">Create campaign</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="singlebutton"></label>
+        <a href="{{campaignlist}}" class="col-md-4 ">View campaign list</a>
+      </div>
+
+    </fieldset>
+  </form>
+</div>
+<script>
+  window.onload = function(){
+        
+    //Check File API support
+    if(window.File && window.FileList && window.FileReader)
+    {
+        var filesInput = document.getElementById("files");
+        
+        filesInput.addEventListener("change", function(event){
+            
+            var files = event.target.files; //FileList object
+            var output = document.getElementById("result");
+            
+            for(var i = 0; i< files.length; i++)
+            {
+                var file = files[i];
+                
+                //Only pics
+                if(!file.type.match('image'))
+                  continue;
+                
+                var picReader = new FileReader();
+                
+                picReader.addEventListener("load",function(event){
+                    
+                    var picFile = event.target;
+                    
+                    var div = document.createElement("div");
+                    div.style.float = "left"
+                    div.innerHTML = "<img class='thumbnail' name='images' width='75' src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'/>";
+                    
+                    output.insertBefore(div,null);            
+                
+                });
+                
+                 //Read the image
+                picReader.readAsDataURL(file);
+            }                               
+           
+        });
+    }
+    else
+    {
+        console.log("Your browser does not support File API");
+    }
+}
+    
+
+</script>

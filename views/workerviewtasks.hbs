@@ -1,0 +1,59 @@
+<h4><a  href="{{profile}}">View my profile</a></h4>
+    <div class="container">
+    <div class="row">
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Tasks</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                </div>
+            </div>
+            Selection tasks
+            <table class="table">
+                <thead>
+                    <tr class="filters">
+                        <th >Task name</th>
+                        <th >Total no of images</th>
+                        <th >Tasktype</th>
+                        <th >Status</th>
+                        <th >Activity</th>
+                    </tr>
+                </thead>
+                {{#each selectionTasks}}
+                <tbody>
+                    <tr>
+                        <td>{{this.taskName}}</td>
+                        <td>{{this.totalImages}}</td>
+                        <td>{{this.taskType}}</td>
+                        <td>{{this.status}}</td>
+                        <td><a href="{{this.perform}}" class="col-md-4 ">Perform Action</a></td>
+                    </tr>
+                </tbody>
+                {{/each}}
+            </table>            
+            Annotation tasks
+            <table class="table">
+                <thead>
+                    <tr class="filters">
+                        <th >Task name</th>
+                        <th >Total no of images</th>
+                        <th >Tasktype</th>
+                        <th >Status</th>
+                        <th >Activity</th>
+                    </tr>
+                </thead>
+                {{#each annotationTasks}}
+                <tbody>
+                    <tr>
+                        <td>{{this.taskName}}</td>
+                        <td>{{this.totalImages}}</td>
+                        <td>{{this.taskType}}</td>
+                        <td>{{this.status}}</td>
+                        <td><a href="{{this.perform}}" class="col-md-4 ">Perform Action</a></td>
+                    </tr>
+                </tbody>
+                {{/each}}
+            </table>
+        </div>
+    </div>
+</div>
