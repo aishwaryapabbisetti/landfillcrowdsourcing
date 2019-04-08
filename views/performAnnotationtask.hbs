@@ -1,7 +1,103 @@
 <h4>Draw an outline around landfill in the image</h4>
 <div style="container width: 900px;">
-    <div class="pic" style="width: 700px;"><img height="500" width="500" id="selectionImage" src='https://www.gstatic.com/webp/gallery/4.webp' alt="Sample image"></div>
-    <p id ="demo"></p>
-    <button type="button" id="accept" onclick="dosomething()" class=" btn1 btn btn-success">Send</button>
-    <button type="button" id="reject" onclick="dosomething()" class="btn2 btn btn-danger">clear</button>
+    <div class="pic" style="width: 700px;">
+        <img class="hidden" id="selectionImage" src='https://www.gstatic.com/webp/gallery/4.webp' alt="Sample image">
+    </div>
+    <div id="canvasDiv"></div>
+    <button type="button" id="accept" onclick="to_image()" class=" btn1 btn btn-success">Send</button>
+    <button type="button" id="reject" onclick="clearCanvas()" class="btn2 btn btn-danger">clear</button>
 </div>
+<script>
+    
+    //set annotationSize
+    var annotationSize = 3;
+
+    //set canvas element
+    var canvasDiv = document.getElementById('canvasDiv');
+    canvas = document.createElement('canvas');
+    canvas.setAttribute('width', 1000);
+    canvas.setAttribute('height', 600);
+    canvas.setAttribute('id', 'canvas');
+    canvasDiv.appendChild(canvas);
+    if (typeof G_vmlCanvasManager != 'undefined') {
+        canvas = G_vmlCanvasManager.initElement(canvas);
+    }
+    context = canvas.getContext("2d");
+
+    //load an image into canvas
+    base_image = new Image();
+    base_image.src = 'https://www.gstatic.com/webp/gallery/4.webp';
+    context.drawImage(base_image, 100, 100);
+    context.save();
+
+    //save the canvas to image and load next image 
+    function to_image(){
+    var image = canvas.toDataURL();
+    console.log(image);
+   
+    }
+
+    //canvas drawing functions
+    $('#canvas').mousedown(function (e) {
+        var mouseX = e.pageX - this.offsetLeft;
+        var mouseY = e.pageY - this.offsetTop;
+
+        paint = true;
+        addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+        redraw();
+    });
+
+    $('#canvas').mousemove(function (e) {
+        if (paint) {
+            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+            redraw();
+        }
+    });
+    $('#canvas').mouseup(function (e) {
+        paint = false;
+    });
+    $('#canvas').mouseleave(function (e) {
+        paint = false;
+    });
+    var clickX = new Array();
+    var clickY = new Array();
+    var clickDrag = new Array();
+    var paint;
+
+    function addClick(x, y, dragging) {
+        clickX.push(x);
+        clickY.push(y);
+        clickDrag.push(dragging);
+    }
+
+    function redraw() {
+        context.strokeStyle = "#df4b26";
+        context.lineJoin = "round";
+        context.lineWidth = annotationSize;
+        for (var i = 0; i < clickX.length; i++) {
+            context.beginPath();
+            if (clickDrag[i] && i) {
+                context.moveTo(clickX[i - 1], clickY[i - 1]);
+            } else {
+                context.moveTo(clickX[i] - 1, clickY[i]);
+            }
+            context.lineTo(clickX[i], clickY[i]);
+            context.closePath();
+            context.stroke();
+
+        }
+    }
+
+    function clearCanvas() {
+        //clear the canvas     
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        clickX = [];
+        clickY = [];
+        clickDrag = [];
+        //and reload image into canvas
+        context.drawImage(base_image, 100, 100);
+    }
+
+
+
+</script>

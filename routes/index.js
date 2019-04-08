@@ -288,6 +288,8 @@ router.get('/performAnnotationTasks/:taskId', async function (req, res, nxt) {
   const taskId = req.params.taskId;
   const task = await taskModel.findById(taskId);
   const campaign = await campaignModel.findById(task.campaign);
+  const annotationSize = campaign.annotationSize;
+  (annotationSize!=null)?annotationSize:annoataionSize= 3;
   let images = await imageModel.find({
     campaign
   });
@@ -297,7 +299,7 @@ router.get('/performAnnotationTasks/:taskId', async function (req, res, nxt) {
   for (var i = task.imagesAnnonated.length; i < campaign.images.length; ++i) {
     images.push(await imageModel.findById(campaign.images[i]));
   }
-  res.render('performAnnotationtask', {images, token});
+  res.render('performAnnotationtask', {images, token, annotationSize});
 });
 
 router.post('/operateAnnotationImage', async function (req, res, nxt){
